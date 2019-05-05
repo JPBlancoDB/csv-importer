@@ -15,7 +15,7 @@ using Microsoft.Extensions.Primitives;
 using Moq;
 using Xunit;
 
-namespace CsvImporter.WebApi.Tests
+namespace CsvImporter.WebApi.Tests.Controllers
 {
     public class ImporterControllerTests
     {

@@ -7,7 +7,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Xunit;
 
-namespace CsvImporter.WebApi.Tests
+namespace CsvImporter.WebApi.Tests.Factories
 {
     public class ResponseFactoryTests
     {

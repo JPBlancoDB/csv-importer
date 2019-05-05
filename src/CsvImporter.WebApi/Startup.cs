@@ -1,5 +1,6 @@
 ﻿using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Factories;
+using CsvImporter.WebApi.Services;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel;
 using Microsoft.AspNetCore.Builder;
@@ -31,8 +32,17 @@ namespace CsvImporter.WebApi
             {
                 StorageFolder = Configuration["ApplicationInsights:TempFolder"]
             });
+            
+            services.AddSingleton<IValidatorFactory, ValidatorFactory>();
+            services.AddSingleton<IValidator>(x =>
+            {
+                var factory = x.GetRequiredService<IValidatorFactory>();
+                return factory.CreateValidator();
+            });
 
+            services.AddTransient<IValidationResultFactory, ValidationResultFactory>();
             services.AddTransient<IResponseFactory, ResponseFactory>();
+            services.AddTransient<ICsvImporterService, CsvImporterService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

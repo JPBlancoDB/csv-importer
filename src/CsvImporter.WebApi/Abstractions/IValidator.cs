@@ -5,6 +5,7 @@ namespace CsvImporter.WebApi.Abstractions
 {
     public interface IValidator
     {
-        ValidationResult Validate(IFormFileCollection formFiles);
+        IValidator NextStep(IValidator validatorStep);
+        ValidationResult Validate(IFormFileCollection formFileCollection);
     }
 }
