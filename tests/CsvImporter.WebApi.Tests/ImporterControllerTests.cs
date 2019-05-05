@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CsvImporter.Common.Contracts.DTOs;
 using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Controllers;
 using CsvImporter.WebApi.Domain;
@@ -20,13 +21,15 @@ namespace CsvImporter.WebApi.Tests
     {
         private readonly Mock<IValidator> _validatorMock;
         private readonly Mock<IResponseFactory> _responseFactory;
+        private readonly Mock<ICsvImporterService> _csvImporterService;
         private readonly ImporterController _importerController;
         
         public ImporterControllerTests()
         {
             _validatorMock = new Mock<IValidator>();
             _responseFactory = new Mock<IResponseFactory>();
-            _importerController = new ImporterController(_validatorMock.Object, _responseFactory.Object);
+            _csvImporterService = new Mock<ICsvImporterService>();
+            _importerController = new ImporterController(_validatorMock.Object, _responseFactory.Object, _csvImporterService.Object);
         }
         
         [Fact]
@@ -45,7 +48,7 @@ namespace CsvImporter.WebApi.Tests
 
 
         [Fact]
-        public async Task Post_ShouldInvokeResponseFactory_WhenValidationFailed()
+        public async Task Post_ShouldInvokeResponseFactory_WhenValidationFailed_WithValidationResult()
         {
             // Arrange
             var formFile = MockFormFile();
@@ -62,6 +65,34 @@ namespace CsvImporter.WebApi.Tests
 
             // Assert
             _responseFactory.Verify(v => v.CreateResponse(validationResult), Times.Once);
+        }
+        
+        [Fact]
+        public async Task Post_ShouldInvokeCsvImporterService_WhenValidationSucceeded()
+        {
+            // Arrange
+            var formFile = MockFormFile();
+            SetupValidator(formFile, new ValidationResult());
+
+            // Act
+            await _importerController.Post();
+
+            // Assert
+            _csvImporterService.Verify(v => v.ExecuteProcess(formFile.Single()), Times.Once);
+        }
+        
+        [Fact]
+        public async Task Post_ShouldInvokeResponseFactory_WhenValidationSucceeded_WithJobDto()
+        {
+            // Arrange
+            var formFile = MockFormFile();
+            SetupValidator(formFile, new ValidationResult());
+
+            // Act
+            await _importerController.Post();
+
+            // Assert
+            _responseFactory.Verify(v => v.CreateResponse(It.IsAny<JobDto>()), Times.Once);
         }
 
         private IFormFileCollection MockFormFile()
