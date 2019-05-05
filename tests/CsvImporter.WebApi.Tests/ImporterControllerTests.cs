@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Controllers;
+using CsvImporter.WebApi.Domain;
 using FizzWare.NBuilder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
@@ -18,25 +19,63 @@ namespace CsvImporter.WebApi.Tests
     public class ImporterControllerTests
     {
         private readonly Mock<IValidator> _validatorMock;
+        private readonly Mock<IResponseFactory> _responseFactory;
         private readonly ImporterController _importerController;
         
         public ImporterControllerTests()
         {
             _validatorMock = new Mock<IValidator>();
-            _importerController = new ImporterController(_validatorMock.Object);
+            _responseFactory = new Mock<IResponseFactory>();
+            _importerController = new ImporterController(_validatorMock.Object, _responseFactory.Object);
         }
         
         [Fact]
         public async Task Post_ShouldInvokeValidatorWithFormFiles()
         {
             // Arrange
-            var context = SetupContext();
+            var formFile = MockFormFile();
+            SetupValidator(formFile, new ValidationResult());
 
             // Act
             await _importerController.Post();
 
             // Assert
-            _validatorMock.Verify(v => v.Validate(context.Request.Form.Files), Times.Once);
+            _validatorMock.Verify(v => v.Validate(formFile), Times.Once);
+        }
+
+
+        [Fact]
+        public async Task Post_ShouldInvokeResponseFactory_WhenValidationFailed()
+        {
+            // Arrange
+            var formFile = MockFormFile();
+            
+            var validationResult = new ValidationResult
+            {
+                ErrorMessage = "error"
+            }; 
+
+            SetupValidator(formFile, validationResult);
+            
+            // Act
+            await _importerController.Post();
+
+            // Assert
+            _responseFactory.Verify(v => v.CreateResponse(validationResult), Times.Once);
+        }
+
+        private IFormFileCollection MockFormFile()
+        {
+            var context = SetupContext();
+            var formFile = context.Request.Form.Files;
+            return formFile;
+        }
+
+        private void SetupValidator(IFormFileCollection formFile, ValidationResult validationResult)
+        {
+            _validatorMock
+                .Setup(s => s.Validate(formFile))
+                .Returns(validationResult);
         }
         
         private DefaultHttpContext SetupContext()

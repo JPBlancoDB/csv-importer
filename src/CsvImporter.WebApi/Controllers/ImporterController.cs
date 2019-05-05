@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using CsvImporter.WebApi.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +9,12 @@ namespace CsvImporter.WebApi.Controllers
     public class ImporterController : ControllerBase
     {
         private readonly IValidator _validator;
+        private readonly IResponseFactory _responseFactory;
 
-        public ImporterController(IValidator validator)
+        public ImporterController(IValidator validator, IResponseFactory responseFactory)
         {
             _validator = validator;
+            _responseFactory = responseFactory;
         }
 
         [HttpPost]
@@ -21,7 +22,10 @@ namespace CsvImporter.WebApi.Controllers
         {
             var formFiles = Request.Form.Files;
             
-            _validator.Validate(formFiles);
+            var validationResult = _validator.Validate(formFiles);
+
+            if (!validationResult.Success)
+                return _responseFactory.CreateResponse(validationResult);
 
             return Ok();
         }
