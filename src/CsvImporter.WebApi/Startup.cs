@@ -1,4 +1,6 @@
-﻿using Microsoft.ApplicationInsights.Channel;
+﻿using CsvImporter.WebApi.Abstractions;
+using CsvImporter.WebApi.Factories;
+using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +31,8 @@ namespace CsvImporter.WebApi
             {
                 StorageFolder = Configuration["ApplicationInsights:TempFolder"]
             });
+
+            services.AddTransient<IResponseFactory, ResponseFactory>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
