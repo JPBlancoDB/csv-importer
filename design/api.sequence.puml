@@ -1,0 +1,42 @@
+@startuml "WebApi Sequence"
+actor User
+participant Controller
+participant Validator
+participant ImporterService
+participant JobsService
+database Sql
+participant CloudStorageService
+database AzureBlobStorage
+participant QueueService
+queue ServiceBus
+
+User->Controller: import csv
+Controller->Validator: validate request
+
+activate Validator
+Validator-->Controller: return ValidationResult
+destroy Validator
+
+activate ImporterService
+Controller->ImporterService: start process
+
+ImporterService->>JobsService: create job: status = created
+JobsService->Sql: store new job
+
+ImporterService->>CloudStorageService: upload csv file
+CloudStorageService->CloudStorageService: rename file with uuid
+CloudStorageService->>AzureBlobStorage: upload file
+
+ImporterService->>QueueService: publish job
+QueueService->>ServiceBus: send message: job
+ServiceBus-->QueueService: ok
+QueueService-->ImporterService: ok
+
+ImporterService->>JobsService: update job: status = queued
+
+ImporterService-->Controller: return job
+destroy ImporterService
+
+Controller-->User: return 202 with job information
+
+@enduml

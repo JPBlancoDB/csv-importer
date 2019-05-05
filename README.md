@@ -1,6 +1,6 @@
 # CSV Importer
 
-The purpose of this project is being able to import a csv file.
+The purpose of this project is being able to import a csv file. For visualizing design diagrams use [PlantUML](http://plantuml.com/).
 
 ## Pre-requisites
 

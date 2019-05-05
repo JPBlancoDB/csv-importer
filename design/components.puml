@@ -1,0 +1,32 @@
+@startuml "Components"
+
+package "Web Api" {
+    [Api]
+}
+
+cloud {
+   [BlobStorage]
+}
+
+package "Web jobs" {
+    [Handler]
+    [JsonService]
+    [SqlService]
+}
+
+database Sql
+
+queue CsvMessage
+queue DataRowMessage
+
+[Api]-->[BlobStorage]
+[Api]-->CsvMessage
+CsvMessage-->[Handler]
+[Handler]->[BlobStorage]
+[Handler]-->DataRowMessage
+DataRowMessage-->[JsonService]
+DataRowMessage-->[SqlService]
+[JsonService]-->[BlobStorage]
+[SqlService]-->Sql
+
+@enduml
