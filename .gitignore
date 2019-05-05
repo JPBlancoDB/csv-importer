@@ -25,3 +25,4 @@ _ReSharper*/
 *.sln.iml
 
 tasks.todo
+liquibase.properties

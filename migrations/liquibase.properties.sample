@@ -1,0 +1,7 @@
+classpath: lib/mssql-jdbc-7.2.2.jre11.jar
+driver: com.microsoft.sqlserver.jdbc.SQLServerDriver
+url: jdbc:sqlserver://{urlDatabase};database={databaseName};encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;
+changeLogFile:configuration.yml
+username: {userName} 
+password: {password}
+logLevel: info

@@ -33,3 +33,15 @@ The purpose of this project is being able to import a csv file. For visualizing 
      - ServiceBusConnectionString
      - CloudStorageConnectionString
      - AppInsightsInstrumentationKey
+
+### Migrations
+
+Migration project boilerplate and migration files were generated with [Liquibase-CLI](https://github.com/JPBlancoDB/liquibase-cli)
+
+1. Rename `liquibase.properties.sample` to `liquibase.properties` and modify accordingly.
+
+2. For running migrations, execute the following in your console:
+
+```bash
+cd migrations && liquibase update
+```
