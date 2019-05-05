@@ -1,5 +1,6 @@
 ﻿using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Factories;
+using CsvImporter.WebApi.IoC;
 using CsvImporter.WebApi.Services;
 using Microsoft.ApplicationInsights.Channel;
 using Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel;
@@ -24,24 +25,8 @@ namespace CsvImporter.WebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
-            services.AddApplicationInsightsTelemetry(Configuration["AppInsightsInstrumentationKey"]);
+            Container.LoadModules(services, Configuration);
             
-            // For using temp folder in Linux
-            // more info: https://docs.microsoft.com/en-us/azure/azure-monitor/app/asp-net-core-no-visualstudio#frequently-asked-questions
-            services.AddSingleton<ITelemetryChannel>(new ServerTelemetryChannel
-            {
-                StorageFolder = Configuration["ApplicationInsights:TempFolder"]
-            });
-            
-            services.AddSingleton<IValidatorFactory, ValidatorFactory>();
-            services.AddSingleton<IValidator>(x =>
-            {
-                var factory = x.GetRequiredService<IValidatorFactory>();
-                return factory.CreateValidator();
-            });
-
-            services.AddTransient<IValidationResultFactory, ValidationResultFactory>();
-            services.AddTransient<IResponseFactory, ResponseFactory>();
             services.AddTransient<ICsvImporterService, CsvImporterService>();
         }
 
