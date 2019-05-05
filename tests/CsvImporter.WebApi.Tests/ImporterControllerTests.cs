@@ -1,9 +1,8 @@
-using System;
 using Xunit;
 
 namespace CsvImporter.WebApi.Tests
 {
-    public class UnitTest1
+    public class ImporterControllerTests
     {
         [Fact]
         public void Test1()
