@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using CsvImporter.Common.Contracts.Profiles;
+using CsvImporter.WebApi.Filters;
 using CsvImporter.WebApi.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +21,9 @@ namespace CsvImporter.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services
+                .AddMvc(options => options.Filters.Add<ExceptionResponseFilter>())
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
             services.AddAutoMapper(typeof(JobProfile));
 

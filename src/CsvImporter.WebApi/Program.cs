@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore;
+﻿using CsvImporter.Common.Contracts.Exceptions;
+using CsvImporter.Common.Utilities;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
@@ -18,11 +20,12 @@ namespace CsvImporter.WebApi
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((context, config) =>
                 {
-                    var keyVaultName = config.Build()["KeyVault:Name"];
+                    var keyVaultName = ConfigurationUtility.GetConfiguration(config.Build(), "KeyVault:Name");
+                    
                     config.AddAzureKeyVault($"https://{keyVaultName}.vault.azure.net/", CreateKeyVaultClient(), new DefaultKeyVaultSecretManager());
                 })
                 .UseStartup<Startup>();
-        
+
         private static KeyVaultClient CreateKeyVaultClient()
         {
             var azureServiceTokenProvider = new AzureServiceTokenProvider();
