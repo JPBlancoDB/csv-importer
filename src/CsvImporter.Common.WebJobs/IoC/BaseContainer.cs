@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using CsvImporter.Common.WebJobs.Abstractions;
 using CsvImporter.Common.WebJobs.Services;
+using Microsoft.ApplicationInsights.Channel;
+using Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,10 +17,20 @@ namespace CsvImporter.Common.WebJobs.IoC
             
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddScoped<IKeyVaultService, KeyVaultServices>();
-
+            
             LoadModules(serviceCollection);
             
-            return serviceCollection.BuildServiceProvider();
+            var container = serviceCollection.BuildServiceProvider();
+
+            var keyVaultService = container.GetService<IKeyVaultService>();
+            
+            serviceCollection.AddApplicationInsightsTelemetry(keyVaultService.GetSecret("AppInsightsInstrumentationKey"));
+            serviceCollection.AddSingleton<ITelemetryChannel>(new ServerTelemetryChannel
+            {
+                StorageFolder = keyVaultService.GetSecret("ApplicationInsights:TempFolder")
+            });
+
+            return container;
         }
 
         private static IConfigurationRoot SetupConfiguration()
