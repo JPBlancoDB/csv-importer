@@ -10,6 +10,7 @@ namespace CsvImporter.WebApi.IoC
         {
             services.AddTransient<ICsvImporterService, CsvImporterService>();
             services.AddTransient<IJobsService, JobsService>();
+            services.AddTransient<ICloudStorageService, AzureCloudStorageService>();
         }
     }
 }
