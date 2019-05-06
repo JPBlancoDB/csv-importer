@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using CsvImporter.WebApi.Abstractions;
 using Microsoft.AspNetCore.Mvc;
@@ -31,8 +32,14 @@ namespace CsvImporter.WebApi.Controllers
                 return _responseFactory.CreateResponse(validationResult);
 
             var result = await _csvImporterService.ExecuteProcess(formFiles.Single());
-
+            
             return _responseFactory.CreateResponse(result);
+        }
+
+        [HttpGet("{jobId:guid}", Name = "getJobStatus")]
+        public ActionResult GetStatus(Guid jobId)
+        {
+            return Ok();
         }
     }
 }

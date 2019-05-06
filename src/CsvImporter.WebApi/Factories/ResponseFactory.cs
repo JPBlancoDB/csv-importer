@@ -14,7 +14,7 @@ namespace CsvImporter.WebApi.Factories
 
         public IActionResult CreateResponse(JobDto job)
         {
-            return new OkObjectResult(job);
+            return new AcceptedAtRouteResult("getJobStatus", new { jobId = job.JobId }, job);
         }
     }
 }

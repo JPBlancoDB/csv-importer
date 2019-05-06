@@ -1,0 +1,33 @@
+@startuml "WebApi Polling Sequence"
+actor User
+participant Controller
+participant JobsService
+database Sql
+
+
+User->>Controller: import csv
+activate Controller
+Controller-->User: return 202 : job
+destroy Controller
+
+note left of Controller 
+import returns 202 with job information
+and location header to retrieve status.
+Polling mechanism done by User
+endnote
+alt Polling
+User->Controller: getStatus: job
+activate Controller
+
+Controller->JobsService: getJob(jobId:guid) : job
+activate JobsService
+JobsService->Sql: getJob: job
+Sql-->JobsService: return
+JobsService-->Controller: return data
+destroy JobsService
+
+Controller-->User: return job
+destroy Controller
+end
+
+@enduml
