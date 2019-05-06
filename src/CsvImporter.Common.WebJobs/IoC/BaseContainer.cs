@@ -16,7 +16,8 @@ namespace CsvImporter.Common.WebJobs.IoC
             var serviceCollection = new ServiceCollection();
             
             serviceCollection.AddSingleton<IConfiguration>(configuration);
-            serviceCollection.AddScoped<IKeyVaultService, KeyVaultServices>();
+            serviceCollection.AddScoped<IKeyVaultService, KeyVaultService>();
+            serviceCollection.AddScoped<IServiceBusService, ServiceBusService>();
             
             LoadModules(serviceCollection);
             

@@ -1,5 +1,6 @@
 ﻿using CsvImporter.Common.WebJobs.Abstractions;
 using CsvImporter.WebJob.CsvHandler.IoC;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CsvImporter.WebJob.CsvHandler
 {
@@ -8,6 +9,10 @@ namespace CsvImporter.WebJob.CsvHandler
         public void InitializeApp()
         {
             var container = new Container().Initialize();
+
+            var serviceBus = container.GetService<IServiceBusService>();
+            
+            serviceBus.RegisterOnMessageHandlerAndReceiveMessages();
         }
     }
 }

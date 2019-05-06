@@ -5,12 +5,12 @@ using Microsoft.Extensions.Configuration;
 
 namespace CsvImporter.Common.WebJobs.Services
 {
-    public class KeyVaultServices : IKeyVaultService
+    public class KeyVaultService : IKeyVaultService
     {
         private readonly KeyVaultClient _keyVaultClient;
         private readonly IConfiguration _configuration;
 
-        public KeyVaultServices(IConfiguration configuration)
+        public KeyVaultService(IConfiguration configuration)
         {
             _configuration = configuration;
             _keyVaultClient = Initialize();
