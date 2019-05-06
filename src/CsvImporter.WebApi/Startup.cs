@@ -1,9 +1,6 @@
-﻿using CsvImporter.WebApi.Abstractions;
-using CsvImporter.WebApi.Factories;
+﻿using AutoMapper;
+using CsvImporter.Common.Contracts.Profiles;
 using CsvImporter.WebApi.IoC;
-using CsvImporter.WebApi.Services;
-using Microsoft.ApplicationInsights.Channel;
-using Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +22,8 @@ namespace CsvImporter.WebApi
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
+            services.AddAutoMapper(typeof(JobProfile));
+
             Container.LoadModules(services, Configuration);
         }
 

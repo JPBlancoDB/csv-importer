@@ -77,7 +77,7 @@ namespace CsvImporter.WebApi.Tests.Services
             _csvImporterService.ExecuteProcess(formFile);
 
             // Assert
-            _jobServiceMock.Verify(v => v.UpdateStatus(jobDto, JobStatus.Queued), Times.Once);
+            _jobServiceMock.Verify(v => v.UpdateStatusQueued(jobDto), Times.Once);
         }
 
         private static IFormFile CreateFormFile()

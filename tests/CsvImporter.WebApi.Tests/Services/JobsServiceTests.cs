@@ -1,10 +1,10 @@
 ﻿using System;
 using CsvImporter.Common.Contracts.DTOs;
 using CsvImporter.Common.Contracts.Entities;
+using CsvImporter.Common.Utilities;
 using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Services;
 using FizzWare.NBuilder;
-using FluentAssertions;
 using Moq;
 using Xunit;
 
@@ -29,10 +29,15 @@ namespace CsvImporter.WebApi.Tests.Services
             var guid = Guid.Empty;
             
             // Act
-            var result = _jobsService.Create(fileName, guid);
+            _jobsService.Create(fileName, guid);
 
             // Assert
-            _jobsRepositoryMock.Verify(v => v.Create(fileName, guid), Times.Once);
+            _jobsRepositoryMock.Verify(v => 
+                v.Create(It.Is<JobDto>(x => 
+                    x.JobStatus == EnumUtility.GetValue(JobStatus.Created) 
+                    && x.JobId == guid
+                    && x.FileName == fileName)),
+                Times.Once);
         }
 
         [Fact]
@@ -40,13 +45,12 @@ namespace CsvImporter.WebApi.Tests.Services
         {
             // Arrange
             var job = Builder<JobDto>.CreateNew().Build();
-            var status = JobStatus.Queued;
             
             // Act
-            var result = _jobsService.UpdateStatus(job, status);
+            _jobsService.UpdateStatusQueued(job);
 
             // Assert
-            _jobsRepositoryMock.Verify(v => v.Update(job, status), Times.Once);
+            _jobsRepositoryMock.Verify(v => v.Update(job, JobStatus.Queued), Times.Once);
         }
     }
 }

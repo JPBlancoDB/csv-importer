@@ -1,6 +1,7 @@
 ﻿using System;
 using CsvImporter.Common.Contracts.DTOs;
 using CsvImporter.Common.Contracts.Entities;
+using CsvImporter.Common.Utilities;
 using CsvImporter.WebApi.Abstractions;
 
 namespace CsvImporter.WebApi.Services
@@ -16,10 +17,22 @@ namespace CsvImporter.WebApi.Services
 
         public JobDto Create(string fileName, Guid guid)
         {
-            return _jobsRepository.Create(fileName, guid);
+            var job = new JobDto
+            {
+                FileName = fileName,
+                JobId = guid,
+                JobStatus = EnumUtility.GetValue(JobStatus.Created)
+            };
+            
+            return _jobsRepository.Create(job);
         }
 
-        public JobDto UpdateStatus(JobDto job, JobStatus status)
+        public JobDto UpdateStatusQueued(JobDto job)
+        {
+            return UpdateStatus(job, JobStatus.Queued);
+        }
+
+        private JobDto UpdateStatus(JobDto job, JobStatus status)
         {
             return _jobsRepository.Update(job, status);
         }

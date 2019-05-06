@@ -3,7 +3,7 @@ using Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CsvImporter.WebApi.IoC
+namespace CsvImporter.WebApi.IoC.Modules
 {
     public static class ApplicationInsightsModule
     {

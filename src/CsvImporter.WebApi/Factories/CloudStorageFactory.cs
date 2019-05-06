@@ -1,4 +1,6 @@
 ﻿using CsvImporter.WebApi.Abstractions;
+using CsvImporter.WebApi.Services.Azure;
+using CsvImporter.WebApi.Services.Azure.Wrappers;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Configuration;
@@ -14,12 +16,12 @@ namespace CsvImporter.WebApi.Factories
             _configuration = configuration;
         }
 
-        public CloudBlobContainer CreateAzureBlobContainer()
+        public ICloudBlobContainer CreateAzureBlobContainer()
         {
             var cloudStorageAccount = CloudStorageAccount.Parse(_configuration["CloudStorageConnectionString"]);
             var cloudBlobClient = cloudStorageAccount.CreateCloudBlobClient();
 
-            return cloudBlobClient.GetContainerReference(_configuration["CloudStorage:BlobName"]);
+            return new CloudBlobContainerWrapper(cloudBlobClient.GetContainerReference(_configuration["CloudStorage:BlobName"]));
         }
     }
 }

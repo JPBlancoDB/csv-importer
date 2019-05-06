@@ -7,6 +7,6 @@ namespace CsvImporter.WebApi.Abstractions
     public interface IJobsService
     {
         JobDto Create(string fileName, Guid guid);
-        JobDto UpdateStatus(JobDto job, JobStatus status);
+        JobDto UpdateStatusQueued(JobDto job);
     }
 }

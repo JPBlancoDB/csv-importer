@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 using CsvImporter.WebApi.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
-using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Logging;
 
-namespace CsvImporter.WebApi.Services
+namespace CsvImporter.WebApi.Services.Azure
 {
     public class AzureCloudStorageService : ICloudStorageService
     {
@@ -32,10 +31,11 @@ namespace CsvImporter.WebApi.Services
             catch (StorageException ex)
             {
                 _logger.LogError(ex, ex.Message);
+                throw;
             }
         }
 
-        private static CloudBlockBlob GetCloudBlockBlob(CloudBlobContainer cloudBlobContainer, Guid uuid)
+        private static ICloudBlockBlob GetCloudBlockBlob(ICloudBlobContainer cloudBlobContainer, Guid uuid)
         {
             var fileName = $"{uuid}.csv";
             return cloudBlobContainer.GetBlockBlobReference(fileName);

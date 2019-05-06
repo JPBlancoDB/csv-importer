@@ -30,7 +30,7 @@ namespace CsvImporter.WebApi.Services
 
             await _queueService.Publish(job);
 
-            return _jobsService.UpdateStatus(job, JobStatus.Queued);
+            return _jobsService.UpdateStatusQueued(job);
         }
     }
 }

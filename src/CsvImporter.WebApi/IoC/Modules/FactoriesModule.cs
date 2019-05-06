@@ -2,7 +2,7 @@
 using CsvImporter.WebApi.Factories;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CsvImporter.WebApi.IoC
+namespace CsvImporter.WebApi.IoC.Modules
 {
     public static class FactoriesModule
     {

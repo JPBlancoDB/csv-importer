@@ -5,6 +5,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="8.1.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.1.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0-beta3" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
@@ -13,5 +14,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CsvImporter.Common.Contracts\CsvImporter.Common.Contracts.csproj" />
+    <ProjectReference Include="..\CsvImporter.Common.Utilities\CsvImporter.Common.Utilities.csproj" />
   </ItemGroup>
 </Project>
