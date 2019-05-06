@@ -19,6 +19,7 @@ namespace CsvImporter.WebApi.IoC.Modules
             });
 
             services.AddTransient<ICloudStorageFactory, CloudStorageFactory>();
+            services.AddTransient<IServiceBusQueueFactory, ServiceBusQueueFactory>();
         }
     }
 }

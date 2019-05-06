@@ -19,14 +19,13 @@ namespace CsvImporter.WebApi.Tests.Services
     {
         private readonly ICloudStorageService _cloudStorageService;
         private readonly Mock<ICloudStorageFactory> _cloudStorageFactoryMock;
-        private readonly Mock<ILogger<AzureCloudStorageService>> _loggerMock;
 
         public AzureCloudStorageServiceTests()
         {
-            _loggerMock = new Mock<ILogger<AzureCloudStorageService>>();
+            var loggerMock = new Mock<ILogger<AzureCloudStorageService>>();
             _cloudStorageFactoryMock = new Mock<ICloudStorageFactory>();
             
-            _cloudStorageService = new AzureCloudStorageService(_loggerMock.Object, _cloudStorageFactoryMock.Object);    
+            _cloudStorageService = new AzureCloudStorageService(loggerMock.Object, _cloudStorageFactoryMock.Object);    
         }
 
         [Fact]
