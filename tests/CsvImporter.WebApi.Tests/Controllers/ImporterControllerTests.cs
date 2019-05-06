@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,7 @@ using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Controllers;
 using CsvImporter.WebApi.Domain;
 using FizzWare.NBuilder;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +24,7 @@ namespace CsvImporter.WebApi.Tests.Controllers
         private readonly Mock<IValidator> _validatorMock;
         private readonly Mock<IResponseFactory> _responseFactory;
         private readonly Mock<ICsvImporterService> _csvImporterService;
+        private readonly Mock<IJobsService> _jobServiceMock;
         private readonly ImporterController _importerController;
         
         public ImporterControllerTests()
@@ -29,7 +32,8 @@ namespace CsvImporter.WebApi.Tests.Controllers
             _validatorMock = new Mock<IValidator>();
             _responseFactory = new Mock<IResponseFactory>();
             _csvImporterService = new Mock<ICsvImporterService>();
-            _importerController = new ImporterController(_validatorMock.Object, _responseFactory.Object, _csvImporterService.Object);
+            _jobServiceMock = new Mock<IJobsService>();
+            _importerController = new ImporterController(_validatorMock.Object, _responseFactory.Object, _csvImporterService.Object, _jobServiceMock.Object);
         }
         
         [Fact]
@@ -95,6 +99,42 @@ namespace CsvImporter.WebApi.Tests.Controllers
             _responseFactory.Verify(v => v.CreateResponse(It.IsAny<JobDto>()), Times.Once);
         }
 
+        [Fact]
+        public void Get_ShouldInvokeJobService_AndReturnOk()
+        {
+            // Arrange
+            var guid = Guid.NewGuid();
+            var job = Builder<JobDto>.CreateNew().Build();
+
+            _jobServiceMock
+                .Setup(s => s.GetJob(guid))
+                .Returns(job);
+            
+            // Act
+            var result = _importerController.GetStatus(guid);
+
+            // Assert
+            _jobServiceMock.Verify(v => v.GetJob(guid), Times.Once);
+            result.Should().BeOfType<OkObjectResult>();
+        }
+
+        [Fact]
+        public void Get_ShouldReturnNotFound_WhenJobIsNull()
+        {
+            // Arrange
+            var guid = Guid.NewGuid();
+
+            _jobServiceMock
+                .Setup(s => s.GetJob(guid));
+            
+            // Act
+            var result = _importerController.GetStatus(guid);
+
+            // Assert
+            _jobServiceMock.Verify(v => v.GetJob(guid), Times.Once);
+            result.Should().BeOfType<NotFoundResult>();
+        }
+        
         private IFormFileCollection MockFormFile()
         {
             var context = SetupContext();

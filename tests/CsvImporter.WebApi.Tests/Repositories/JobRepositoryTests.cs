@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
 using CsvImporter.Common.Contracts.DTOs;
 using CsvImporter.Common.Contracts.Entities;
@@ -71,6 +72,43 @@ namespace CsvImporter.WebApi.Tests.Repositories
 
                 createdJob.JobStatus.Should().Be(jobDto.JobStatus);
                 updatedJob.JobStatus.Should().Be(EnumUtility.GetValue(expectedStatus));
+            }
+        }
+        
+        [Fact]
+        public void Get_ShouldReturnJobDto()
+        {
+            // Arrange
+            var jobDto = CreateJobDto();
+
+            using (var dbContext = new JobDbContext(CreateDbContextOptions("InMemoryDatabase_Get")))
+            {
+                var jobsRepository = new JobsRepository(SetupAutoMapper(), dbContext);
+                jobsRepository.Create(jobDto);
+
+                // Act
+                var job = jobsRepository.Get(jobDto.JobId);
+
+                // Assert
+                job.JobId.Should().Be(jobDto.JobId);
+                job.FileName.Should().Be(jobDto.FileName);
+                job.JobStatus.Should().Be(jobDto.JobStatus);
+            }
+        }
+
+        [Fact]
+        public void Get_ShouldReturnNull_WhenJobIdNotFound()
+        {
+            // Arrange
+            using (var dbContext = new JobDbContext(CreateDbContextOptions("InMemoryDatabase_GetNull")))
+            {
+                var jobsRepository = new JobsRepository(SetupAutoMapper(), dbContext);
+
+                // Act
+                var job = jobsRepository.Get(Guid.Empty);
+
+                // Assert
+                job.Should().BeNull();
             }
         }
         

@@ -32,6 +32,11 @@ namespace CsvImporter.WebApi.Services
             return UpdateStatus(job, JobStatus.Queued);
         }
 
+        public JobDto GetJob(Guid jobId)
+        {
+            return _jobsRepository.Get(jobId);
+        }
+
         private JobDto UpdateStatus(JobDto job, JobStatus status)
         {
             return _jobsRepository.Update(job, status);

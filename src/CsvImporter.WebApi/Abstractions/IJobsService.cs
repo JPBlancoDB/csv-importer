@@ -8,5 +8,6 @@ namespace CsvImporter.WebApi.Abstractions
     {
         JobDto Create(string fileName, Guid guid);
         JobDto UpdateStatusQueued(JobDto job);
+        JobDto GetJob(Guid jobId);
     }
 }

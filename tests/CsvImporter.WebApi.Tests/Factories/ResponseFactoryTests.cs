@@ -42,8 +42,8 @@ namespace CsvImporter.WebApi.Tests.Factories
             var result = _responseFactory.CreateResponse(jobDto);
             
             // Assert
-            result.Should().BeOfType<OkObjectResult>();
-            ((OkObjectResult) result).Value.Should().Be(jobDto);
+            result.Should().BeOfType<AcceptedAtRouteResult>();
+            ((AcceptedAtRouteResult) result).Value.Should().Be(jobDto);
         }
     }
 }

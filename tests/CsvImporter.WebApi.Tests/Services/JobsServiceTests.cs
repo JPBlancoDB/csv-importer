@@ -52,5 +52,18 @@ namespace CsvImporter.WebApi.Tests.Services
             // Assert
             _jobsRepositoryMock.Verify(v => v.Update(job, JobStatus.Queued), Times.Once);
         }
+
+        [Fact]
+        public void GetJob_ShouldInvokeJobRepositoryGet()
+        {
+            // Arrange
+            var guid = Guid.NewGuid();
+            
+            // Act
+            _jobsService.GetJob(guid);
+
+            // Assert
+            _jobsRepositoryMock.Verify(v => v.Get(guid), Times.Once);
+        }
     }
 }

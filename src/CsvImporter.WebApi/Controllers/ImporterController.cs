@@ -13,12 +13,18 @@ namespace CsvImporter.WebApi.Controllers
         private readonly IValidator _validator;
         private readonly IResponseFactory _responseFactory;
         private readonly ICsvImporterService _csvImporterService;
+        private readonly IJobsService _jobsService;
 
-        public ImporterController(IValidator validator, IResponseFactory responseFactory, ICsvImporterService csvImporterService)
+        public ImporterController(
+            IValidator validator, 
+            IResponseFactory responseFactory, 
+            ICsvImporterService csvImporterService, 
+            IJobsService jobsService)
         {
             _validator = validator;
             _responseFactory = responseFactory;
             _csvImporterService = csvImporterService;
+            _jobsService = jobsService;
         }
 
         [HttpPost]
@@ -39,7 +45,12 @@ namespace CsvImporter.WebApi.Controllers
         [HttpGet("{jobId:guid}", Name = "getJobStatus")]
         public ActionResult GetStatus(Guid jobId)
         {
-            return Ok();
+            var job = _jobsService.GetJob(jobId);
+
+            if (job == null)
+                return NotFound();
+
+            return Ok(job);
         }
     }
 }
