@@ -26,8 +26,6 @@ namespace CsvImporter.WebApi
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             
             Container.LoadModules(services, Configuration);
-            
-            services.AddTransient<ICsvImporterService, CsvImporterService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

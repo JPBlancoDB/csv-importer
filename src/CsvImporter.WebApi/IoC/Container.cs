@@ -9,6 +9,7 @@ namespace CsvImporter.WebApi.IoC
         {
             ApplicationInsightsModule.Load(services, configuration);
             FactoriesModule.Load(services);
+            ServicesModule.Load(services);
         } 
     }
 }

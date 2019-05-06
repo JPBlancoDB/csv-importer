@@ -4,9 +4,9 @@ using CsvImporter.Common.Contracts.Entities;
 
 namespace CsvImporter.WebApi.Abstractions
 {
-    public interface IJobsService
+    public interface IJobsRepository
     {
         JobDto Create(string fileName, Guid guid);
-        JobDto UpdateStatus(JobDto job, JobStatus status);
+        JobDto Update(JobDto job, JobStatus status);
     }
 }

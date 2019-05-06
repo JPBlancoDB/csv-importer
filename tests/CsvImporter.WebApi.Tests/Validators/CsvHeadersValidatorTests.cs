@@ -1,12 +1,8 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Domain;
 using CsvImporter.WebApi.Validators;
-using FizzWare.NBuilder;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
 using Moq;
 using Xunit;
