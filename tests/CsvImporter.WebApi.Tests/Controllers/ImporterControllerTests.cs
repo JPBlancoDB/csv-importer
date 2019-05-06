@@ -117,23 +117,6 @@ namespace CsvImporter.WebApi.Tests.Controllers
             _jobServiceMock.Verify(v => v.GetJob(guid), Times.Once);
             result.Should().BeOfType<OkObjectResult>();
         }
-
-        [Fact]
-        public void Get_ShouldReturnNotFound_WhenJobIsNull()
-        {
-            // Arrange
-            var guid = Guid.NewGuid();
-
-            _jobServiceMock
-                .Setup(s => s.GetJob(guid));
-            
-            // Act
-            var result = _importerController.GetStatus(guid);
-
-            // Assert
-            _jobServiceMock.Verify(v => v.GetJob(guid), Times.Once);
-            result.Should().BeOfType<NotFoundResult>();
-        }
         
         private IFormFileCollection MockFormFile()
         {

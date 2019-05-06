@@ -47,9 +47,6 @@ namespace CsvImporter.WebApi.Controllers
         {
             var job = _jobsService.GetJob(jobId);
 
-            if (job == null)
-                return NotFound();
-
             return Ok(job);
         }
     }

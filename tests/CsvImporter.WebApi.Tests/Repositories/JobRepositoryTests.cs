@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using CsvImporter.Common.Contracts.DTOs;
 using CsvImporter.Common.Contracts.Entities;
+using CsvImporter.Common.Contracts.Exceptions;
 using CsvImporter.Common.Contracts.Profiles;
 using CsvImporter.Common.Utilities;
 using CsvImporter.WebApi.Repositories;
@@ -97,18 +98,22 @@ namespace CsvImporter.WebApi.Tests.Repositories
         }
 
         [Fact]
-        public void Get_ShouldReturnNull_WhenJobIdNotFound()
+        public void Get_ShouldThrowException_WhenJobIdNotFound()
         {
             // Arrange
             using (var dbContext = new JobDbContext(CreateDbContextOptions("InMemoryDatabase_GetNull")))
             {
                 var jobsRepository = new JobsRepository(SetupAutoMapper(), dbContext);
-
+                var jobId = Guid.Empty;
+                
                 // Act
-                var job = jobsRepository.Get(Guid.Empty);
+                var exception = new Action(() => jobsRepository.Get(jobId));
 
                 // Assert
-                job.Should().BeNull();
+                exception
+                    .Should()
+                    .Throw<JobNotFoundException>()
+                    .WithMessage(string.Format("JobId: {0} not found.", jobId));
             }
         }
         

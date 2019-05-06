@@ -3,6 +3,7 @@ using System.Linq;
 using AutoMapper;
 using CsvImporter.Common.Contracts.DTOs;
 using CsvImporter.Common.Contracts.Entities;
+using CsvImporter.Common.Contracts.Exceptions;
 using CsvImporter.WebApi.Abstractions;
 
 namespace CsvImporter.WebApi.Repositories
@@ -44,6 +45,9 @@ namespace CsvImporter.WebApi.Repositories
         {
             var jobEntity = GetJobEntity(jobId);
 
+            if(jobEntity == null)
+                throw new JobNotFoundException(jobId);
+            
             return _mapper.Map<JobEntity, JobDto>(jobEntity);
         }
         
