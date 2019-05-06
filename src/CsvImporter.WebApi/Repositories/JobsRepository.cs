@@ -32,7 +32,7 @@ namespace CsvImporter.WebApi.Repositories
         public JobDto Update(JobDto job, JobStatus status)
         {
             var jobEntity = GetJobEntity(job.JobId);
-
+            
             jobEntity.JobStatus = status;
             jobEntity.DateLastModified = DateTime.Now;
 
@@ -44,16 +44,18 @@ namespace CsvImporter.WebApi.Repositories
         public JobDto Get(Guid jobId)
         {
             var jobEntity = GetJobEntity(jobId);
-
-            if(jobEntity == null)
-                throw new JobNotFoundException(jobId);
             
             return _mapper.Map<JobEntity, JobDto>(jobEntity);
         }
         
         private JobEntity GetJobEntity(Guid jobId)
         {
-            return _dbContext.Jobs.SingleOrDefault(where => where.JobId == jobId);
+            var jobEntity = _dbContext.Jobs.SingleOrDefault(where => where.JobId == jobId);
+            
+            if(jobEntity == null)
+                throw new JobNotFoundException(jobId);
+            
+            return jobEntity;
         }
     }
 }
