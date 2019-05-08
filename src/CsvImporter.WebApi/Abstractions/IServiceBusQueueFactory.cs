@@ -4,7 +4,7 @@ namespace CsvImporter.WebApi.Abstractions
 {
     public interface IServiceBusQueueFactory
     {
-        ITopicClient CreateClient();
-        Message CreateMessage(string message);
+        IQueueClient CreateQueueClient();
+        Message CreateMessage(string content);
     }
 }

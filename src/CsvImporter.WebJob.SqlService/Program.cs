@@ -6,8 +6,6 @@ namespace CsvImporter.WebJob.SqlService
     {
         private static void Main(string[] args)
         {
-            new Bootstrapper().InitializeApp();
-
             Console.ReadKey();
         }
     }

@@ -15,14 +15,17 @@ namespace CsvImporter.WebApi.Factories
             _configuration = configuration;
         }
 
-        public ITopicClient CreateClient()
+        public IQueueClient CreateQueueClient()
         {
-            return new TopicClient(GetConfiguration("ServiceBusConnectionString"), GetConfiguration("ServiceBus:TopicName"));
+            return new QueueClient(GetConfiguration("ServiceBusConnectionString"), GetConfiguration("ServiceBus:QueueName"));
         }
 
-        public Message CreateMessage(string message)
+        public Message CreateMessage(string content)
         {
-            return new Message(Encoding.UTF8.GetBytes(message));
+            var message = new Message(Encoding.UTF8.GetBytes(content));
+            message.ContentType = "application/json";
+            
+            return message;
         }
         
         private string GetConfiguration(string configurationKey)

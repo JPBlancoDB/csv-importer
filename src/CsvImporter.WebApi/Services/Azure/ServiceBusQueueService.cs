@@ -16,7 +16,7 @@ namespace CsvImporter.WebApi.Services.Azure
 
         public async Task Publish(JobDto job)
         {
-            var client = _serviceBusQueueFactory.CreateClient();
+            var client = _serviceBusQueueFactory.CreateQueueClient();
 
             var message = _serviceBusQueueFactory.CreateMessage(JsonConvert.SerializeObject(job));
 
