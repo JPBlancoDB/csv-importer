@@ -1,4 +1,4 @@
-﻿namespace CsvImporter.WebApi.Abstractions
+﻿namespace CsvImporter.Common.Utilities.Abstractions
 {
     public interface ICloudBlobContainer
     {

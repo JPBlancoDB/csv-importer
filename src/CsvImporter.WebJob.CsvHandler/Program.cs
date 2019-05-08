@@ -1,6 +1,9 @@
 ﻿using System.Threading.Tasks;
 using CsvImporter.Common.WebJobs;
+using CsvImporter.WebJob.CsvHandler.Abstractions;
+using CsvImporter.WebJob.CsvHandler.Services;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
@@ -29,7 +32,7 @@ namespace CsvImporter.WebJob.CsvHandler
                 })
                 .ConfigureServices((context, services) =>
                 {
-                    //services.AddTransient<IMessageHandler, MessageHandler>();
+                    services.AddTransient<IAzureCloudStorageService, AzureCloudStorageService>();
                 })
                 .UseConsoleLifetime();
 

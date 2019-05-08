@@ -1,4 +1,5 @@
-﻿using CsvImporter.WebApi.IoC.Modules;
+﻿using CsvImporter.Common.Utilities.IoC;
+using CsvImporter.WebApi.IoC.Modules;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +13,7 @@ namespace CsvImporter.WebApi.IoC
             FactoriesModule.Load(services);
             ServicesModule.Load(services);
             RepositoriesModule.Load(services, configuration);
+            CommonModule.Load(services);
         } 
     }
 }

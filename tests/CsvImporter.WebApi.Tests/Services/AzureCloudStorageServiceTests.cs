@@ -1,17 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using CsvImporter.Common.Utilities.Abstractions;
 using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Services.Azure;
-using FizzWare.NBuilder;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Storage;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Internal;
 using Moq;
 using Xunit;
-using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace CsvImporter.WebApi.Tests.Services
 {

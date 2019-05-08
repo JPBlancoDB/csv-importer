@@ -1,9 +1,9 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using CsvImporter.WebApi.Abstractions;
+using CsvImporter.Common.Utilities.Abstractions;
 using Microsoft.Azure.Storage.Blob;
 
-namespace CsvImporter.WebApi.Services.Azure.Wrappers
+namespace CsvImporter.Common.Utilities.Wrappers
 {
     public class CloudBlockBlobWrapper : ICloudBlockBlob
     {

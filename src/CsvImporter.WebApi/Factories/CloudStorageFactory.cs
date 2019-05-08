@@ -1,7 +1,7 @@
 ﻿using CsvImporter.Common.Utilities;
+using CsvImporter.Common.Utilities.Abstractions;
+using CsvImporter.Common.Utilities.Wrappers;
 using CsvImporter.WebApi.Abstractions;
-using CsvImporter.WebApi.Services.Azure;
-using CsvImporter.WebApi.Services.Azure.Wrappers;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Configuration;

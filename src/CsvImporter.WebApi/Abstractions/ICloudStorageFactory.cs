@@ -1,4 +1,6 @@
-﻿namespace CsvImporter.WebApi.Abstractions
+﻿using CsvImporter.Common.Utilities.Abstractions;
+
+namespace CsvImporter.WebApi.Abstractions
 {
     public interface ICloudStorageFactory
     {

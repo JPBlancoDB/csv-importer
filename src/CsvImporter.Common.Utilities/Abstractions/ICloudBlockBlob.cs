@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace CsvImporter.WebApi.Abstractions
+namespace CsvImporter.Common.Utilities.Abstractions
 {
     public interface ICloudBlockBlob
     {
