@@ -18,5 +18,10 @@ namespace CsvImporter.Common.Utilities.Wrappers
         {
             return _cloudBlockBlob.UploadFromStreamAsync(stream);
         }
+
+        public Task DownloadToStreamAsync(Stream stream)
+        {
+            return _cloudBlockBlob.DownloadToStreamAsync(stream);
+        }
     }
 }

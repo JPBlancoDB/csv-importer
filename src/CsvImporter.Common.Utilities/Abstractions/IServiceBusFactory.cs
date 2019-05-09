@@ -1,10 +1,11 @@
 ﻿using Microsoft.Azure.ServiceBus;
 
-namespace CsvImporter.WebApi.Abstractions
+namespace CsvImporter.Common.Utilities.Abstractions
 {
-    public interface IServiceBusQueueFactory
+    public interface IServiceBusFactory
     {
         IQueueClient CreateQueueClient();
+        ITopicClient CreateTopicClient();
         Message CreateMessage(string content);
     }
 }

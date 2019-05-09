@@ -14,6 +14,7 @@
     <ProjectReference Include="..\CsvImporter.Common.Contracts\CsvImporter.Common.Contracts.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.4.0" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="10.0.2" />
   </ItemGroup>
 </Project>

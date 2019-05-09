@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using CsvImporter.Common.Contracts.DTOs;
 
 namespace CsvImporter.WebJob.CsvHandler.Abstractions
 {
-    public interface IAzureCloudStorageService
+    public interface IServiceBusService
     {
-        Task<MemoryStream> GetFileStream(JobDto item);
+        Task Publish(IEnumerable<ProductDto> products);
     }
 }

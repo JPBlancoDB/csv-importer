@@ -17,9 +17,6 @@ namespace CsvImporter.WebApi.IoC.Modules
                 var factory = x.GetRequiredService<IValidatorFactory>();
                 return factory.CreateValidator();
             });
-
-            services.AddTransient<ICloudStorageFactory, CloudStorageFactory>();
-            services.AddTransient<IServiceBusQueueFactory, ServiceBusQueueFactory>();
         }
     }
 }

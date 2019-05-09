@@ -1,12 +1,10 @@
-﻿using CsvImporter.Common.Utilities;
-using CsvImporter.Common.Utilities.Abstractions;
+﻿using CsvImporter.Common.Utilities.Abstractions;
 using CsvImporter.Common.Utilities.Wrappers;
-using CsvImporter.WebApi.Abstractions;
 using Microsoft.Azure.Storage;
 using Microsoft.Azure.Storage.Blob;
 using Microsoft.Extensions.Configuration;
 
-namespace CsvImporter.WebApi.Factories
+namespace CsvImporter.Common.Utilities.Factories
 {
     public class CloudStorageFactory : ICloudStorageFactory
     {

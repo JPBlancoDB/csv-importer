@@ -5,6 +5,7 @@
     <LangVersion>7.1</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="CsvHelper" Version="12.1.2" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.7.0-beta3" />
     <PackageReference Include="Microsoft.AspNetCore.AzureKeyVault.HostingStartup" Version="2.0.4" />
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="3.4.0" />
@@ -25,6 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CsvImporter.Common.Contracts\CsvImporter.Common.Contracts.csproj" />
+    <ProjectReference Include="..\CsvImporter.Common.Utilities\CsvImporter.Common.Utilities.csproj" />
     <ProjectReference Include="..\CsvImporter.Common.WebJobs\CsvImporter.Common.WebJobs.csproj" />
   </ItemGroup>
   <ItemGroup>

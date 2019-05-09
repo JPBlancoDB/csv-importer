@@ -1,16 +1,15 @@
 ﻿using System.Text;
-using CsvImporter.Common.Utilities;
-using CsvImporter.WebApi.Abstractions;
+using CsvImporter.Common.Utilities.Abstractions;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Extensions.Configuration;
 
-namespace CsvImporter.WebApi.Factories
+namespace CsvImporter.Common.Utilities.Factories
 {
-    public class ServiceBusQueueFactory : IServiceBusQueueFactory
+    public class ServiceBusFactory : IServiceBusFactory
     {
         private readonly IConfiguration _configuration;
 
-        public ServiceBusQueueFactory(IConfiguration configuration)
+        public ServiceBusFactory(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -18,6 +17,11 @@ namespace CsvImporter.WebApi.Factories
         public IQueueClient CreateQueueClient()
         {
             return new QueueClient(GetConfiguration("ServiceBusConnectionString"), GetConfiguration("ServiceBus:QueueName"));
+        }
+        
+        public ITopicClient CreateTopicClient()
+        {
+            return new TopicClient(GetConfiguration("ServiceBusConnectionString"), GetConfiguration("ServiceBus:TopicName"));
         }
 
         public Message CreateMessage(string content)

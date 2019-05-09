@@ -1,4 +1,5 @@
 ﻿using CsvImporter.Common.Contracts.DTOs;
+using CsvImporter.Common.Utilities.Abstractions;
 using CsvImporter.WebApi.Abstractions;
 using CsvImporter.WebApi.Services.Azure;
 using FizzWare.NBuilder;
@@ -12,12 +13,12 @@ namespace CsvImporter.WebApi.Tests.Services
     public class ServiceBusQueueServiceTests
     {
         private readonly IQueueService _queueService;
-        private readonly Mock<IServiceBusQueueFactory> _serviceBusQueueFactoryMock;
+        private readonly Mock<IServiceBusFactory> _serviceBusFactoryMock;
 
         public ServiceBusQueueServiceTests()
         {
-            _serviceBusQueueFactoryMock = new Mock<IServiceBusQueueFactory>();
-            _queueService = new ServiceBusQueueService(_serviceBusQueueFactoryMock.Object);
+            _serviceBusFactoryMock = new Mock<IServiceBusFactory>();
+            _queueService = new ServiceBusQueueService(_serviceBusFactoryMock.Object);
         }
 
         [Fact]
@@ -27,7 +28,7 @@ namespace CsvImporter.WebApi.Tests.Services
             _queueService.Publish(It.IsAny<JobDto>());
 
             // Assert
-            _serviceBusQueueFactoryMock.Verify(v => v.CreateQueueClient(), Times.Once);
+            _serviceBusFactoryMock.Verify(v => v.CreateQueueClient(), Times.Once);
         }
         
         [Fact]
@@ -40,8 +41,8 @@ namespace CsvImporter.WebApi.Tests.Services
             _queueService.Publish(job);
 
             // Assert
-            _serviceBusQueueFactoryMock.Verify(v => v.CreateQueueClient(), Times.Once);
-            _serviceBusQueueFactoryMock.Verify(v => v.CreateMessage(JsonConvert.SerializeObject(job)), Times.Once);
+            _serviceBusFactoryMock.Verify(v => v.CreateQueueClient(), Times.Once);
+            _serviceBusFactoryMock.Verify(v => v.CreateMessage(JsonConvert.SerializeObject(job)), Times.Once);
         }
         
         [Fact]
@@ -51,7 +52,7 @@ namespace CsvImporter.WebApi.Tests.Services
             var job = Builder<JobDto>.CreateNew().Build();
             var queueClientMock = new Mock<IQueueClient>();
 
-            _serviceBusQueueFactoryMock
+            _serviceBusFactoryMock
                 .Setup(s => s.CreateQueueClient())
                 .Returns(queueClientMock.Object);
             
@@ -59,8 +60,8 @@ namespace CsvImporter.WebApi.Tests.Services
             _queueService.Publish(job);
 
             // Assert
-            _serviceBusQueueFactoryMock.Verify(v => v.CreateQueueClient(), Times.Once);
-            _serviceBusQueueFactoryMock.Verify(v => v.CreateMessage(JsonConvert.SerializeObject(job)), Times.Once);
+            _serviceBusFactoryMock.Verify(v => v.CreateQueueClient(), Times.Once);
+            _serviceBusFactoryMock.Verify(v => v.CreateMessage(JsonConvert.SerializeObject(job)), Times.Once);
             queueClientMock.Verify(v => v.SendAsync(It.IsAny<Message>()), Times.Once);
         }        
     }
