@@ -1,4 +1,6 @@
 ﻿using CsvImporter.Common.Utilities.IoC;
+using CsvImporter.WebJob.JsonService.Abstractions;
+using CsvImporter.WebJob.JsonService.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CsvImporter.WebJob.JsonService.IoC
@@ -7,6 +9,7 @@ namespace CsvImporter.WebJob.JsonService.IoC
     {
         public static void Load(IServiceCollection services)
         {
+            services.AddTransient<IAzureCloudStorageService, AzureCloudStorageService>();
             CommonModule.Load(services);
         }
     }

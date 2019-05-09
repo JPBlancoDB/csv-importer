@@ -7,5 +7,6 @@ namespace CsvImporter.Common.Utilities.Abstractions
     {
         Task UploadFromStreamAsync(Stream stream);
         Task DownloadToStreamAsync(Stream stream);
+        Task UploadTextAsync(string content);
     }
 }

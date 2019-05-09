@@ -28,7 +28,7 @@ namespace CsvImporter.WebJob.SqlService
                     options.AddConsole();
                     CommonConfiguration.ApplicationInsightsConfiguration(context, options);
                 })
-                .ConfigureServices(services => Container.Load(services))
+                .ConfigureServices((context,services) => Container.Load(services, context.Configuration))
                 .UseConsoleLifetime();
 
             var host = builder.Build();
